@@ -28,7 +28,9 @@ class Grid():
     def print_grid(self):
         os.system('cls' if os.name == 'nt' else 'clear')
 
-        print("=========================")
+        for i in range(len(self.grid) * 2 + 3):
+            print("=", end="")
+        print("")
         for i in range(len(self.grid)):
             print("|", end=" ")
             for j in range(len(self.grid[i])):
@@ -37,7 +39,9 @@ class Grid():
                 else:
                     print("-", end=" ")
             print("|")
-        print("=========================")
+        for i in range(len(self.grid) * 2 + 3):
+            print("=", end="")
+        print("")
 
     # Find number of adjacent bits that are 'true'
     def get_adjacent(self, y, x):
