@@ -10,6 +10,7 @@ import boardStarts
 # Choose the conway board
 print("Which board to use?")
 choiceNum = int(input("> "))
+# A "switch" statement...
 if choiceNum == 0:
     board = Grid(11, 11)
     board.set_grid(boardStarts.tumbler)

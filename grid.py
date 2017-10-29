@@ -3,6 +3,7 @@ import os
 class Grid():
     # Create the grid
     def __init__(self, y, x):
+        # Constructs both current and new grids to all False values
         self.grid = [[False]*y for i in range(x)]
         self.new_grid = [[False]*y for i in range(x)]
 
@@ -12,7 +13,9 @@ class Grid():
 
     # Update the grid
     def set_grid(self, new_grid):
+        # The current grid becomes the previous 'new grid'
         self.grid = new_grid
+        # The new grid is set to all False values
         self.new_grid = [[False]*(len(self.new_grid)) \
                 for i in range((len(self.new_grid)))]
 
@@ -49,6 +52,7 @@ class Grid():
             adjacent += self.grid[y][x + 1]
             corner2 += 1
             corner4 += 1
+        # For a 'diagonal' bit to exist, it must satisfy two directions
         if corner1 == 2:
             adjacent += self.grid[y - 1][x - 1]
         if corner2 == 2:
@@ -61,11 +65,13 @@ class Grid():
 
     # Print the grid
     def print_grid(self):
+        # Clears the screen before printing again
         os.system('cls' if os.name == 'nt' else 'clear')
-
+        # Prints the top border line
         for i in range(len(self.grid) * 2 + 3):
             print("=", end="")
         print("")
+        # Prints the game bits
         for i in range(len(self.grid)):
             print("|", end=" ")
             for j in range(len(self.grid[i])):
@@ -75,6 +81,7 @@ class Grid():
                 else:
                     print("-", end=" ")
             print("|")
+        # Prints the bottom border line
         for i in range(len(self.grid) * 2 + 3):
             print("=", end="")
         print("")
@@ -82,6 +89,7 @@ class Grid():
     # Update a bit
     def update_bit(self, y, x):
         adj = self.get_adjacent(y, x)
+        # The rules for a grid position that has a bit in it
         if self.grid[y][x] == True:
             if adj <= 1:
                 self.new_grid[y][x] = False
@@ -89,6 +97,7 @@ class Grid():
                 self.new_grid[y][x] = False
             else:
                 self.new_grid[y][x] = True
+        # The other rules for a grid position with no bit on it
         else:
             if adj == 3:
                 self.new_grid[y][x] = True
