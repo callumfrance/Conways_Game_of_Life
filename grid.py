@@ -24,28 +24,11 @@ class Grid():
     def set_bit(self, y, x, value):
         self.grid[y][x] = value
 
-    # Print the grid
-    def print_grid(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
-
-        for i in range(len(self.grid) * 2 + 3):
-            print("=", end="")
-        print("")
-        for i in range(len(self.grid)):
-            print("|", end=" ")
-            for j in range(len(self.grid[i])):
-                if self.grid[i][j] == True:
-                    print("o", end=" ")
-                else:
-                    print("-", end=" ")
-            print("|")
-        for i in range(len(self.grid) * 2 + 3):
-            print("=", end="")
-        print("")
-
     # Find number of adjacent bits that are 'true'
     def get_adjacent(self, y, x):
         adjacent = 0
+        # The below variables are used to see if a corner exists,
+        # or if the 'bit' is on an edge of the board
         corner1 = 0     # Smallest y and x corner
         corner2 = 0     # Smaller y, larger x corner
         corner3 = 0     # Larger y, smaller x corner
@@ -54,7 +37,7 @@ class Grid():
             adjacent += self.grid[y - 1][x]
             corner1 += 1
             corner2 += 1
-        if y < len(self.grid):
+        if y < len(self.grid) - 1:
             adjacent += self.grid[y + 1][x]
             corner3 += 1
             corner4 += 1
@@ -62,7 +45,7 @@ class Grid():
             adjacent += self.grid[y][x - 1]
             corner1 += 1
             corner3 += 1
-        if x < len(self.grid[0]):
+        if x < len(self.grid[0]) - 1:
             adjacent += self.grid[y][x + 1]
             corner2 += 1
             corner4 += 1
@@ -75,6 +58,26 @@ class Grid():
         if corner4 == 2:
             adjacent += self.grid[y + 1][x + 1]
         return adjacent
+
+    # Print the grid
+    def print_grid(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+        for i in range(len(self.grid) * 2 + 3):
+            print("=", end="")
+        print("")
+        for i in range(len(self.grid)):
+            print("|", end=" ")
+            for j in range(len(self.grid[i])):
+                if self.grid[i][j] == True:
+                    # print(self.get_adjacent(i, j), end=" ")
+                    print("o", end=" ")
+                else:
+                    print("-", end=" ")
+            print("|")
+        for i in range(len(self.grid) * 2 + 3):
+            print("=", end="")
+        print("")
 
     # Update a bit
     def update_bit(self, y, x):
@@ -96,8 +99,9 @@ class Grid():
     def update_grid(self):
         self.new_grid = [[False]*(len(self.new_grid)) \
                 for i in range((len(self.new_grid)))]
-        for i in range(len(self.grid) - 1):
-            for j in range(len(self.grid[i]) - 1):
+        for i in range(len(self.grid)):
+            for j in range(len(self.grid[i])):
+                # print(i, j, "-->", self.grid[i][j])
                 self.update_bit(i, j)
         self.grid = self.new_grid
 
